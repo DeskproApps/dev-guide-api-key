@@ -35,6 +35,33 @@ export default class App extends React.Component {
     });
   }
 
+  /**
+   * @param {string} email the subscriber email
+   * @returns {Promise.<String, Error>}
+   */
+  readSubscriberStatus(email)
+  {
+    const { restApi } = this.props.dpapp;
+
+    return restApi.fetchCORS(
+      `https://us16.api.mailchimp.com/3.0/search-members?query=${email}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json' ,
+          'Accept': 'application/json' ,
+          'X-Proxy-SignWith': 'basic_auth anystring:{{apiKey}}'
+        }
+      }).then(response => {
+      const { members } = response.body.exact_matches;
+      if (members.length) {
+        return members[0].status
+      }
+      return null;
+    })
+      ;
+  }
+
   render() {
     return (
       <div>Hello world</div>
