@@ -62,9 +62,18 @@ export default class App extends React.Component {
       ;
   }
 
+  componentDidMount()
+  {
+    this.readTicketOwnerEmail()
+      .then(email => this.readSubscriberStatus(email))
+      .then(status => {
+        this.setState({ status: status || 'unknown' })
+      })
+    ;
+  }
+
   render() {
-    return (
-      <div>Hello world</div>
-    );
+    const { status } = this.state || {} ;
+    return status ? (<p style={{textAlign: "center"}}> Member status: <b>{status.charAt(0).toUpperCase() + status.slice(1)}</b></p>) : null;
   }
 }
