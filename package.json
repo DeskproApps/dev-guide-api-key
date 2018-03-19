@@ -5,7 +5,7 @@
   "main": "lib/main/javascript/index.js",
   "scripts": {
     "dev": "dpat server .",
-    "package": "dpat clean . && dpat compile . && dpat verify ./dist && dpat package .",
+    "package": "dpat clean . && dpat compile . && dpat bundle-installer . && dpat verify ./dist && dpat package .",
     "test": "dpat test ."
   },
   "repository": {
@@ -37,9 +37,27 @@
         "url": "html/index.html"
       }
     ],
-    "settings": [],
+    "settings" : [
+      {
+        "name": "apiKey",
+        "defaultValue": "",
+        "title": "Mailchimp API Key",
+        "required": true,
+        "type": "text"
+      }
+    ],
+    "storage": [
+      {
+        "name": "apiKey",
+        "isBackendOnly": true,
+        "permRead": "EVERYBODY",
+        "permWrite": "OWNER"
+      }
+    ],
     "deskproApiTags": [],
-    "externalApis": []
+    "externalApis": [
+      "/^https?://([^.]+\\.)*mailchimp.com/?.*$/"
+    ]
   },
   "dependencies": {},
   "devDependencies": {
